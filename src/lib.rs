@@ -1,4 +1,5 @@
 pub mod sorting;
+pub mod problems;
 
 #[cfg(test)]
 mod tests {

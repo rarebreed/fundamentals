@@ -1,4 +1,4 @@
-//! Defines how to sort a heap
+//! Defines how to sort using a heap structure
 
 use std::cmp::{ PartialEq, Eq, PartialOrd, Ord };
 use std::fmt::{Display, Debug};
@@ -7,6 +7,7 @@ use std::fmt::{Display, Debug};
 pub struct Heap<T> {
   pub heap: Vec<T>,
 }
+
 
 impl<T> Heap<T>
   where T: PartialEq + PartialOrd + Ord + Copy + Display + Debug {
@@ -29,8 +30,6 @@ impl<T> Heap<T>
   }
 
   /// Helper: Finds the children for a given position
-  /// 
-  /// Since 
   fn get_children(&self, i: usize) -> Vec<(usize, T)> {
     if self.heap.len() > i * 2 + 2 {
       return vec![(i*2+1, self.heap[i*2+1]), (i*2+2, self.heap[i*2+2])];
@@ -202,10 +201,12 @@ mod tests {
     hp.add(26);
     hp.add(4);
 
-    for _ in 0..hp.heap.len()-1 {
+    for _ in 0..(hp.heap.len()) {
+      println!("length is now {}", hp.heap.len());
       let head = hp.remove();
       println!("head = {}", head);
     }
+    println!("{:#?}", hp.heap);
   }
 
   #[test]
