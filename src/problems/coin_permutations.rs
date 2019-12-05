@@ -2,7 +2,7 @@
 //! amount of money.  For example, 78 cents could be 3 quarters and 3 pennies, and 7 dimes, a 
 //! nickel and 3 pennies,etc. It must find all possible permutations
 //! 
-//! To solve this problem, buildthis up recursivel both in the lieteral sense, and also in the
+//! To solve this problem, build this up recursively both in the literal sense, and also in the
 //! sense of breaking down the problem.  Imagine that you only have one type of coin, a penny.
 //! This solution is trivial.  Next, consider if you only have nickels and pennies.  How would you
 //! solve this problem then?
@@ -15,6 +15,8 @@
 //! Many recursive problems are reductive in the sense that they break the problem down into smaller
 //! parts until they hit the base case.  This is more similiar to induction in that we are
 //! increasing some value and decide when to stop the induction
+//! 
+//! TODO: Make an iterative rather than recursive solution to this problem to get around stack overflow
 
 #[derive(Copy, Clone, Debug)]
 pub struct Change {
@@ -91,11 +93,19 @@ pub fn make_denom(denom: usize) -> impl Fn(usize, usize, Change, &mut Vec<Change
 mod tests {
     use super::*;
 
+    fn check_change(combos: &Vec<Change>, check: usize) {
+      let x = combos.iter();
+      x.for_each(|v| {
+        let amt = v.amount();
+        assert_eq!(amt, check);
+      });
+      println!("HOF(25): {:#?}", combos);
+    }
+
     #[test]
     fn test_nickels() {
         let curr = Change::new();
         let mut combos: Vec<Change> = vec![];
-        //find_nickels(0, 9, curr, combos);
         let find_nick = make_denom(5);
         find_nick(0, 33, curr, &mut combos);
         println!("HOF(5): {:#?}", combos);
@@ -105,7 +115,6 @@ mod tests {
     fn test_dimes() {
         let curr = Change::new();
         let mut combos: Vec<Change> = vec![];
-        //find_nickels(0, 9, curr, combos);
         find_dimes(0, 26, curr, &mut combos);
         println!("HOF(10): {:?}", combos);
     }
@@ -114,14 +123,8 @@ mod tests {
     fn test_quarters() {
         let curr = Change::new();
         let mut combos: Vec<Change> = vec![];
-        //find_nickels(0, 9, curr, combos);
         find_quarters(0, 56, curr, &mut combos);
 
-        let x = combos.iter();
-        x.for_each(|v| {
-          let amt = v.amount();
-          assert_eq!(amt, 56);
-        });
-        println!("HOF(25): {:#?}", combos);
+        check_change(&combos, 56);
     }
 }
