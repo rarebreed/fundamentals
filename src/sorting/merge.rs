@@ -2,7 +2,17 @@
 //! 
 //! Shows how to do an in-place sort using a merge sort algorithm.  The idea is to split the 
 //! array, until it has only 1 or 2 elements.  we can then sort the sub arrays trivially. 
-//! once all the sub arrays are sorted, we walk back up, comparing each element
+//! once all the sub arrays are sorted, we walk back up, comparing each element.
+//! 
+//! For example, suppose we have [5, 6, 3, 4, 8, 7, 1]
+//! [5, 6, 3], [4, 8, 7, 1]
+//! [5], [6, 3], [4, 8], [7, 1]
+//! [5], [3, 6], [4, 8], [1, 7] <= At this point each sub-slice is ordered and the recursion ends
+//! ([5], [3, 6]), ([4, 8], [1, 7]) <= now we recombine.  compare the first element of each pair in the tuple
+//! (3): [5], [6] - (1): [4, 8], [7]
+//! (3): [5, 6] - (1): [4, 8]
+//! [3, 5, 6] - [1, 4, 8]
+
 
 use std::ops::Range;
 
